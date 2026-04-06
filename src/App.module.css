@@ -1,0 +1,40 @@
+.app {
+    min-height: 100vh;
+    padding: 32px 16px;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto 32px;
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "form"
+        "result"
+        "history";
+    gap: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "form    history"
+            "result  history";
+    }
+}

@@ -17,21 +17,30 @@ const App = () => {
 
   return (
     <div className={styles.app}>
+      <header className={styles.header}>
+        <h1 className={styles.heading}>🎰 Betting Calculator</h1>
+      </header>
       <main className={styles.main}>
-        <BetForm
-          formData={formData}
-          errors={errors}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-        />
-        <BetResult
-          result={result}
-          gameType={formData.gameType}
-        />
-        <BetHistory
-          history={history}
-          onClear={clearHistory}
-        />
+        <div style={{ gridArea: 'form' }}>
+          <BetForm
+            formData={formData}
+            errors={errors}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+          />
+        </div>
+        <div style={{ gridArea: 'result' }}>
+          <BetResult
+            result={result}
+            gameType={formData.gameType}
+          />
+        </div>
+        <div style={{ gridArea: 'history' }}>
+          <BetHistory
+            history={history}
+            onClear={clearHistory}
+          />
+        </div>
       </main>
     </div>
   );

@@ -1,0 +1,68 @@
+.placeholder {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    color: var(--text-secondary);
+    font-size: 15px;
+    text-align: center;
+}
+
+.result {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gameType {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-bg);
+    padding: 4px 10px;
+    border-radius: 20px;
+    align-self: flex-start;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.rowLabel {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.rowValue {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.profit {
+    color: var(--profit);
+}
