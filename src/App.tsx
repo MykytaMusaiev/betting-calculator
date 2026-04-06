@@ -3,6 +3,7 @@ import BetForm from './components/BetForm/BetForm';
 import BetResult from './components/BetResult/BetResult';
 import BetHistory from './components/BetHistory/BetHistory';
 import styles from './App.module.css';
+import { useTheme } from './shared/hooks/useTheme';
 
 const App = () => {
   const {
@@ -15,10 +16,15 @@ const App = () => {
     clearHistory,
   } = useBetCalculator();
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div className={styles.app}>
       <header className={styles.header}>
         <h1 className={styles.heading}>🎰 Betting Calculator</h1>
+        <button className={styles.themeToggle} onClick={toggleTheme}>
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
       </header>
       <main className={styles.main}>
         <div style={{ gridArea: 'form' }}>
