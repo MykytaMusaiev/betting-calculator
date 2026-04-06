@@ -1,0 +1,48 @@
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Theme variables */
+:root {
+    --bg: #f3f4f6;
+    --surface: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border: #e5e7eb;
+    --primary: #6366f1;
+    --primary-bg: #eef2ff;
+    --error: #ef4444;
+    --error-bg: #fef2f2;
+    --success: #22c55e;
+}
+
+[data-theme="dark"] {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --border: #2e2e45;
+    --primary: #818cf8;
+    --primary-bg: #1e1b4b;
+    --error: #f87171;
+    --error-bg: #2d1b1b;
+    --success: #4ade80;
+}
+
+/* Base */
+body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: "Inter", system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+#root {
+    min-height: 100vh;
+}
