@@ -1,12 +1,40 @@
-import './App.module.css'
+import { useBetCalculator } from './shared/hooks/useBetCalculator';
+import BetForm from './components/BetForm/BetForm';
+import BetResult from './components/BetResult/BetResult';
+import BetHistory from './components/BetHistory/BetHistory';
+import styles from './App.module.css';
 
-function App() {
+const App = () => {
+  const {
+    formData,
+    errors,
+    result,
+    history,
+    handleChange,
+    handleSubmit,
+    clearHistory,
+  } = useBetCalculator();
 
   return (
-    <>
-      <h1>Placeholder</h1>
-    </>
-  )
-}
+    <div className={styles.app}>
+      <main className={styles.main}>
+        <BetForm
+          formData={formData}
+          errors={errors}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+        />
+        <BetResult
+          result={result}
+          gameType={formData.gameType}
+        />
+        <BetHistory
+          history={history}
+          onClear={clearHistory}
+        />
+      </main>
+    </div>
+  );
+};
 
-export default App
+export default App;
