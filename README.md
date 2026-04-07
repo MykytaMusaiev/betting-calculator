@@ -30,39 +30,3 @@ npm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-## Build
-
-```bash
-npm run build
-```
-
-## Project Structure
-
-src/
-├── components/
-│ ├── BetForm/
-│ ├── BetResult/
-│ ├── BetHistory/
-│ └── BetHistoryItem/
-├── shared/
-│ ├── hooks/
-│ │ ├── useBetCalculator.ts
-│ │ └── useTheme.ts
-│ ├── types/
-│ │ └── bet.ts
-│ └── constants/
-│ ├── gameTypes.ts
-│ └── currency.ts
-├── App.tsx
-├── App.module.css
-├── main.tsx
-└── global.css
-
-## Bonus Features Implemented
-
-| Bonus                            | Status |
-| -------------------------------- | ------ |
-| TypeScript                       | ✅     |
-| Custom Hook (`useBetCalculator`) | ✅     |
-| Dark / Light Mode                | ✅     |
