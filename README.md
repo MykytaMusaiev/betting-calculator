@@ -12,7 +12,7 @@ Calculate potential winnings, track your bet history, and switch between light a
 - **Bet history** — last 5 bets saved to localStorage, persists on page reload
 - **Dark / Light mode** — toggle with system preference fallback
 - **TypeScript** — full type coverage across components and hooks
-- **Responsive** — works from 320px to 1440px
+- **Responsive** — works from 320px to 1440px.
 
 ## Tech Stack
 
