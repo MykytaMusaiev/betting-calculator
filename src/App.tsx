@@ -2,6 +2,7 @@ import { useBetCalculator } from './shared/hooks/useBetCalculator';
 import BetForm from './components/BetForm/BetForm';
 import BetResult from './components/BetResult/BetResult';
 import BetHistory from './components/BetHistory/BetHistory';
+import BetChart from './components/BetChart/BetChart';
 import styles from './App.module.css';
 import { useTheme } from './shared/hooks/useTheme';
 
@@ -46,6 +47,9 @@ const App = () => {
             history={history}
             onClear={clearHistory}
           />
+        </div>
+        <div style={{ gridArea: 'chart' }}>
+          <BetChart history={history} />
         </div>
       </main>
     </div>

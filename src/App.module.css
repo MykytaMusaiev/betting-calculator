@@ -24,7 +24,8 @@
     grid-template-areas:
         "form"
         "result"
-        "history";
+        "history"
+        "chart";
     gap: 24px;
     max-width: 960px;
     margin: 0 auto;
@@ -35,8 +36,9 @@
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
             "form    history"
-            "result  history";
-        grid-template-rows: auto 1fr;
+            "result  history"
+            "chart   chart";
+        grid-template-rows: auto 1fr auto;
         align-items: start;
     }
 }
