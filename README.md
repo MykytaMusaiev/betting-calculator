@@ -16,7 +16,7 @@ Calculate potential winnings, track your bet history, and switch between light a
 
 ## Tech Stack
 
-- React 18 + TypeScript
+- React 19 + TypeScript
 - Vite
 - CSS Modules
 

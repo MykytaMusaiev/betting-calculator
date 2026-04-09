@@ -1,17 +1,18 @@
-import type { FormData, FormErrors } from '../../shared/types/bet';
+import type { BetFormData, FormErrors } from '../../shared/types/bet';
 import { GAME_TYPES } from '../../shared/constants/gameTypes';
 import styles from './BetForm.module.css';
 
 interface Props {
-  formData: FormData;
+  formData: BetFormData;
   errors: FormErrors;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onBlur: (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => void;
   onSubmit: () => void;
 }
 
-const BetForm = ({ formData, errors, onChange, onSubmit }: Props) => {
+const BetForm = ({ formData, errors, onChange, onBlur, onSubmit }: Props) => {
   return (
-    <div className={styles.form}>
+    <form className={styles.form} onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
       <h2 className={styles.title}>Калькулятор ставок</h2>
 
       <div className={styles.field}>
@@ -21,9 +22,11 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: Props) => {
         <input
           id="betAmount"
           name="betAmount"
-          type="number"
+          type="text"
+          inputMode="decimal"
           value={formData.betAmount}
           onChange={onChange}
+          onBlur={onBlur}
           placeholder="Наприклад: 500"
           className={`${styles.input} ${errors.betAmount ? styles.inputError : ''}`}
         />
@@ -39,9 +42,11 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: Props) => {
         <input
           id="coefficient"
           name="coefficient"
-          type="number"
+          type="text"
+          inputMode="decimal"
           value={formData.coefficient}
           onChange={onChange}
+          onBlur={onBlur}
           placeholder="Наприклад: 2.5"
           className={`${styles.input} ${errors.coefficient ? styles.inputError : ''}`}
         />
@@ -59,6 +64,7 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: Props) => {
           name="gameType"
           value={formData.gameType}
           onChange={onChange}
+          onBlur={onBlur}
           className={`${styles.input} ${errors.gameType ? styles.inputError : ''}`}
         >
           <option value="">Оберіть тип гри</option>
@@ -73,10 +79,10 @@ const BetForm = ({ formData, errors, onChange, onSubmit }: Props) => {
         )}
       </div>
 
-      <button className={styles.button} onClick={onSubmit}>
+      <button className={styles.button} type="submit">
         Розрахувати
       </button>
-    </div>
+    </form>
   );
 };
 

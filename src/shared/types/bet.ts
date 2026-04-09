@@ -3,7 +3,7 @@ export interface GameType {
     label: string;
 }
 
-export interface FormData {
+export interface BetFormData {
     betAmount: string;
     coefficient: string;
     gameType: string;

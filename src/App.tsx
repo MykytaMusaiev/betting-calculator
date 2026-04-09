@@ -13,6 +13,7 @@ const App = () => {
     result,
     history,
     handleChange,
+    handleBlur,
     handleSubmit,
     clearHistory,
   } = useBetCalculator();
@@ -33,6 +34,7 @@ const App = () => {
             formData={formData}
             errors={errors}
             onChange={handleChange}
+            onBlur={handleBlur}
             onSubmit={handleSubmit}
           />
         </div>

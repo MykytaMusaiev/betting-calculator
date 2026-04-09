@@ -3,6 +3,8 @@ import type { Bet } from '../../shared/types/bet';
 import BetHistoryItem from '../BetHistoryItem/BetHistoryItem';
 import styles from './BetHistory.module.css';
 
+const CLEAR_ANIMATION_MS = 300;
+
 interface Props {
   history: Bet[];
   onClear: () => void;
@@ -16,7 +18,7 @@ const BetHistory = ({ history, onClear }: Props) => {
     setTimeout(() => {
       onClear();
       setIsClearing(false);
-    }, 300);
+    }, CLEAR_ANIMATION_MS);
   };
 
   if (history.length === 0) {

@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import type { Bet } from '../../shared/types/bet';
 import styles from './BetChart.module.css';
+import { CURRENCY } from '../../shared/constants/currency';
 
 interface Props {
   history: Bet[];
@@ -48,7 +49,7 @@ const CustomTooltip = ({ active, payload }: TooltipProps) => {
       <p className={styles.tooltipDate}>{d.gameType} {d.date}</p>
       <div className={styles.tooltipRow}>
         <span>Ставка</span>
-        <span>{d.amount.toFixed(2)} ₴</span>
+        <span>{d.amount.toFixed(2)} {CURRENCY}</span>
       </div>
       <div className={styles.tooltipRow}>
         <span>Коефіцієнт</span>
@@ -57,11 +58,11 @@ const CustomTooltip = ({ active, payload }: TooltipProps) => {
       <div className={styles.tooltipDivider} />
       <div className={styles.tooltipRow}>
         <span>Виграш</span>
-        <span className={styles.tooltipWin}>{d.win.toFixed(2)} ₴</span>
+        <span className={styles.tooltipWin}>{d.win.toFixed(2)} {CURRENCY}</span>
       </div>
       <div className={styles.tooltipRow}>
         <span>Прибуток</span>
-        <span className={styles.tooltipProfit}>+{d.profit.toFixed(2)} ₴</span>
+        <span className={styles.tooltipProfit}>+{d.profit.toFixed(2)} {CURRENCY}</span>
       </div>
     </div>
   );
@@ -123,7 +124,7 @@ const BetChart = ({ history }: Props) => {
         tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
         axisLine={false}
         tickLine={false}
-        tickFormatter={(v) => `${v}₴`}
+        tickFormatter={(v) => `${v}${CURRENCY}`}
         width={64}
       />
       <Tooltip content={<CustomTooltip />} />

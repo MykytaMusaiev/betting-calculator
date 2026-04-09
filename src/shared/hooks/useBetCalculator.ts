@@ -1,9 +1,21 @@
 import { useState, useEffect, useMemo } from "react";
-import type { FormData, FormErrors, Bet, BetResult } from "../types/bet";
+import type { BetFormData, FormErrors, Bet, BetResult } from "../types/bet";
 import { GAME_TYPES } from "../constants/gameTypes";
 
 const STORAGE_KEY = "betHistory";
 const HISTORY_LIMIT = 5;
+
+const NUMERIC_FIELDS = ["betAmount", "coefficient"] as const;
+
+const NON_NUMERIC_REGEX = /[^\d.,]/g;
+const MULTIPLE_DOTS_REGEX = /\.(?=.*\.)/g;
+const TWO_DECIMALS_REGEX = /^(\d+)(\.\d{0,2})?.*$/;
+
+const initialFormData: BetFormData = {
+    betAmount: "",
+    coefficient: "",
+    gameType: "",
+};
 
 const getInitialHistory = (): Bet[] => {
     try {
@@ -14,15 +26,45 @@ const getInitialHistory = (): Bet[] => {
     }
 };
 
-const initialFormData: FormData = {
-    betAmount: "",
-    coefficient: "",
-    gameType: "",
+const normalizeNumberInput = (value: string): string => {
+    const v = value
+        .replace(NON_NUMERIC_REGEX, "")
+        .replace(",", ".")
+        .replace(MULTIPLE_DOTS_REGEX, "");
+
+    const match = v.match(TWO_DECIMALS_REGEX);
+    return match ? match[1] + (match[2] ?? "") : v;
+};
+
+const validators: Record<
+    keyof BetFormData,
+    (value: string) => string | undefined
+> = {
+    betAmount: (value) => {
+        const amount = parseFloat(value);
+        if (!value || isNaN(amount)) return "Введіть суму ставки";
+        if (amount <= 0) return "Сума повинна бути більше 0";
+        if (amount > 100000) return "Максимум 100 000";
+    },
+
+    coefficient: (value) => {
+        const coeff = parseFloat(value);
+        if (!value || isNaN(coeff)) return "Введіть коефіцієнт";
+        if (coeff < 1.01) return "Мінімальний коефіцієнт 1.01";
+        if (coeff > 1000) return "Максимум 1000";
+    },
+
+    gameType: (value) => {
+        if (!value) return "Оберіть тип гри";
+    },
 };
 
 export const useBetCalculator = () => {
-    const [formData, setFormData] = useState<FormData>(initialFormData);
+    const [formData, setFormData] = useState<BetFormData>(initialFormData);
     const [errors, setErrors] = useState<FormErrors>({});
+    const [touched, setTouched] = useState<
+        Partial<Record<keyof BetFormData, boolean>>
+    >({});
     const [history, setHistory] = useState<Bet[]>(getInitialHistory);
 
     useEffect(() => {
@@ -32,45 +74,76 @@ export const useBetCalculator = () => {
     const result = useMemo<BetResult | null>(() => {
         const amount = parseFloat(formData.betAmount);
         const coeff = parseFloat(formData.coefficient);
+
         if (isNaN(amount) || isNaN(coeff) || amount <= 0 || coeff < 1.01)
             return null;
+
         const win = amount * coeff;
-        return { win, profit: win - amount };
+
+        return {
+            win,
+            profit: win - amount,
+        };
     }, [formData.betAmount, formData.coefficient]);
 
-    const validate = (): boolean => {
-        const newErrors: FormErrors = {};
-        const amount = parseFloat(formData.betAmount);
-        const coeff = parseFloat(formData.coefficient);
+    const validateField = (name: keyof BetFormData, value: string) =>
+        validators[name](value);
 
-        if (!formData.betAmount || isNaN(amount))
-            newErrors.betAmount = "Введіть суму ставки";
-        else if (amount <= 0)
-            newErrors.betAmount = "Сума повинна бути більше 0";
-        else if (amount > 100000) newErrors.betAmount = "Максимум 100 000";
-
-        if (!formData.coefficient || isNaN(coeff))
-            newErrors.coefficient = "Введіть коефіцієнт";
-        else if (coeff < 1.01)
-            newErrors.coefficient = "Мінімальний коефіцієнт 1.01";
-        else if (coeff > 1000) newErrors.coefficient = "Максимум 1000";
-
-        if (!formData.gameType) newErrors.gameType = "Оберіть тип гри";
+    const validateAll = (): boolean => {
+        const newErrors = Object.fromEntries(
+            Object.entries(formData).map(([key, value]) => [
+                key,
+                validators[key as keyof BetFormData](value),
+            ]),
+        ) as FormErrors;
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+
+        return !Object.values(newErrors).some(Boolean);
     };
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     ) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        setErrors((prev) => ({ ...prev, [name]: undefined }));
+        const field = name as keyof BetFormData;
+
+        const cleaned = (NUMERIC_FIELDS as readonly string[]).includes(name)
+            ? normalizeNumberInput(value)
+            : value;
+
+        setFormData((prev) => ({
+            ...prev,
+            [field]: cleaned,
+        }));
+
+        if (touched[field]) {
+            setErrors((prev) => ({
+                ...prev,
+                [field]: validateField(field, cleaned),
+            }));
+        }
+    };
+
+    const handleBlur = (
+        e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>,
+    ) => {
+        const field = e.target.name as keyof BetFormData;
+        const value = e.target.value;
+
+        setTouched((prev) => ({
+            ...prev,
+            [field]: true,
+        }));
+
+        setErrors((prev) => ({
+            ...prev,
+            [field]: validateField(field, value),
+        }));
     };
 
     const handleSubmit = () => {
-        if (!validate() || !result) return;
+        if (!validateAll() || !result) return;
 
         const gameTypeLabel =
             GAME_TYPES.find((g) => g.value === formData.gameType)?.label ??
@@ -93,8 +166,10 @@ export const useBetCalculator = () => {
         };
 
         setHistory((prev) => [bet, ...prev].slice(0, HISTORY_LIMIT));
+
         setFormData(initialFormData);
         setErrors({});
+        setTouched({});
     };
 
     const clearHistory = () => setHistory([]);
@@ -105,6 +180,7 @@ export const useBetCalculator = () => {
         result,
         history,
         handleChange,
+        handleBlur,
         handleSubmit,
         clearHistory,
     };
