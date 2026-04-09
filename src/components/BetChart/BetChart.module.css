@@ -1,0 +1,105 @@
+.wrap {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.modes {
+    display: flex;
+    gap: 4px;
+    background: var(--surface-secondary);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+}
+
+.modeBtn {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition:
+        background var(--transition),
+        color var(--transition);
+}
+
+.modeBtn:hover {
+    color: var(--text-primary);
+}
+
+.modeBtnActive {
+    background: var(--surface);
+    color: var(--primary);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+.empty {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    color: var(--text-secondary);
+    font-size: 15px;
+    text-align: center;
+}
+
+.tooltip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    box-shadow: var(--shadow-md);
+    min-width: 180px;
+    font-size: 13px;
+}
+
+.tooltipDate {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.tooltipRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.tooltipDivider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+
+.tooltipWin {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.tooltipProfit {
+    color: var(--profit);
+    font-weight: 600;
+}

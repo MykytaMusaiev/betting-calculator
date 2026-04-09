@@ -1,0 +1,67 @@
+.app {
+    min-height: 100vh;
+    padding: 32px 16px;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto 32px;
+}
+
+.heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "form"
+        "result"
+        "history"
+        "chart";
+    gap: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "form    history"
+            "result  history"
+            "chart   chart";
+        grid-template-rows: auto 1fr auto;
+        align-items: start;
+    }
+}
+
+.themeToggle {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.themeToggle:hover {
+    background: var(--primary-bg);
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
